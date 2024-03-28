@@ -1,4 +1,5 @@
-import { BoardConfig, CellData } from '../../models';
+import { CellData } from '../../models';
+import { GameBase } from '../../store/gameBase/models.ts';
 
 export type Board = CellData[][];
 
@@ -9,7 +10,7 @@ const initBoard = (size: number): Board => {
     const rowData: CellData[] = [];
 
     for (let col = 0; col < size; col++) {
-      rowData.push({ row, column: col, value: 0, isMine: false });
+      rowData.push({ row, column: col, value: 0, isMine: false, isRevealed: false });
     }
 
     board.push(rowData);
@@ -59,7 +60,7 @@ const initMines = (board: Board, mines: [number, number][]): Board => {
   return plantedBoard;
 };
 
-export const getBoardFromConfig = (config: BoardConfig): Board => {
+export const getBoardFromConfig = (config: GameBase): Board => {
   const { size, mines } = config;
 
   const board = initBoard(size);

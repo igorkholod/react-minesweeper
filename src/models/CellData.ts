@@ -3,4 +3,5 @@ export interface CellData {
   column: number;
   value: number;
   isMine: boolean;
+  isRevealed: boolean;
 }
