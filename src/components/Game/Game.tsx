@@ -2,18 +2,25 @@ import * as React from 'react';
 import Board from '../Board';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectBaseBoardById } from '../../store/baseBoard/baseBoardsSlice.ts';
+import { initializeDetailedBoard, selectDetailedBoardById } from '../../store/boards/boardsSlice.ts';
+import { useAppDispatch } from '../../hooks/useAppDispatch.ts';
 
-export interface GameProps {}
+export interface GameProps {
+}
 
 const Game: React.FC<GameProps> = () => {
   const { uuid } = useParams();
+  const dispatch = useAppDispatch();
+  
+  const detailedBoard = useSelector(selectDetailedBoardById(uuid!));
 
-  const baseBoard = useSelector(selectBaseBoardById(uuid ?? ''));
+  if (!detailedBoard) {
+    dispatch(initializeDetailedBoard(uuid!));
+  }
 
   return <>
     <h1>React minesweeper</h1>
-    <Board baseBoard={baseBoard} />
+    <Board board={detailedBoard}/>
   </>;
 };
 

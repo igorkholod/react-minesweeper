@@ -5,9 +5,13 @@
     background-color: lightgray;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: black;
 }
 
 .empty-cell {
     background-color: black;
+}
+
+.hidden-cell {
+    background-color: darkgray;
 }

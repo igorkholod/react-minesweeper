@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { selectBaseBoards } from '../../store/baseBoard/baseBoardsSlice.ts';
-import BoardLink from './BoardLink.tsx';
+import { selectBaseBoards } from '../../store/boards/boardsSlice.ts';
+import BoardLink from './BoardLink';
 import './BoardsList.css';
+import ButtonLink from '../ButtonLink';
 
 export interface BoardsListProps {}
 
@@ -14,6 +15,8 @@ const BoardsList: React.FC<BoardsListProps> = () => {
     <div className="list">
       {boards.map((board) => <BoardLink key={board.uuid} board={board} />)}
     </div>
+    <p>Or</p>
+    <ButtonLink link="/create">Create a new one</ButtonLink>
   </>;
 };
 
