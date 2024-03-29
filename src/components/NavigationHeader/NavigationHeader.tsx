@@ -15,9 +15,12 @@ const ButtonLink: React.FC<{ link: string; children: ReactNode; }> = ({ link, ch
 
 const NavigationHeader: React.FC<NavigationHeaderProps> = () => {
   return <AppBar component="nav">
-    <Toolbar>
+    <Toolbar style={{ gap: '8px' }}>
       <ButtonLink link="/">
         Home
+      </ButtonLink>
+      <ButtonLink link="/create">
+        Create
       </ButtonLink>
     </Toolbar>
   </AppBar>;

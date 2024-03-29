@@ -36,13 +36,16 @@ const initMines = (cells: Cells, mines: [number, number][]): Cells => {
 };
 
 export const initializeDetailedBoardFromBase = (config: BaseBoard): DetailedBoard => {
-  const { size, mines } = config;
+  const { size, mines, uuid, name } = config;
 
   const board = initCells(size);
 
   return {
-    uuid: config.uuid,
+    uuid: uuid,
+    name: name,
     cells: initMines(board, mines),
-    gameOver: false
+    gameOver: false,
+    safeCellsNumber: Math.pow(size, 2) - mines.length,
+    isCleared: false,
   };
 };

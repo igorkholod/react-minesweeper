@@ -39,18 +39,23 @@ const boardsSlice = createSlice({
   reducers: {
     addBaseBoard: (state, action: PayloadAction<Omit<BaseBoard, 'uuid'>>) => {
       const uuid = crypto.randomUUID();
-      state.baseBoards[uuid] = { uuid, ...action.payload };
+      state.baseBoards[uuid] = { ...action.payload, uuid };
     },
     initializeDetailedBoard: (state, action: PayloadAction<string>) => {
       const uuid = action.payload;
       state.detailedBoards[uuid] = initializeDetailedBoardFromBase(state.baseBoards[uuid]);
     },
     revealBoardCell: (state, action: PayloadAction<{ uuid: string; row: number, col: number }>) => {
+      const board = state.detailedBoards[action.payload.uuid];
       revealCell({
-        board: state.detailedBoards[action.payload.uuid],
+        board,
         row: action.payload.row, col:
         action.payload.col
       });
+
+      if (board.safeCellsNumber === 0) {
+        board.isCleared = true;
+      }
     },
     resetBoard: (state, action: PayloadAction<string>) => {
       state.detailedBoards[action.payload] = initializeDetailedBoardFromBase(state.baseBoards[action.payload]);

@@ -1,39 +1,37 @@
 import * as React from 'react';
 import './FieldCell.css';
-import MineSvg from './MineSvg.tsx';
-import CellValue from './CellValue.tsx';
+import ValueCell from './ValueCell.tsx';
 import { CellData } from '../../store/boards/models.ts';
+import HiddenCell from './HiddenCell.tsx';
+import EmptyCell from './EmptyCell.tsx';
+import MineCell from './MineCell.tsx';
 
 export interface FieldCellProps {
   cell: CellData;
-  reveal: (cell: { row: number; col: number }) => void;
+  onCellClick: (cell: CellData) => void;
   gameOver: boolean;
+  isCleared: boolean;
+  allowAnyCellClick?: boolean;
 }
 
-const FieldCell: React.FC<FieldCellProps> = ({ cell, reveal, gameOver }) => {
+const FieldCell: React.FC<FieldCellProps> = ({ cell, onCellClick, gameOver, isCleared, allowAnyCellClick = false }) => {
   const isEmpty = cell.value === 0 && !cell.isMine;
-  const isRevealed = cell.isRevealed;
-
-  const handleRevealCell = () => {
-    if (gameOver) {
-      return;
-    }
-
-    reveal({ row: cell.row, col: cell.column });
-  };
+  const isRevealed = cell.isRevealed || isCleared;
+  const boundOnCellClick = () => onCellClick(cell);
 
   if (!isRevealed && !gameOver) {
-    return <div className="cell hidden-cell" style={{ cursor: gameOver ? 'pointer' : 'default' }}
-                onClick={handleRevealCell}/>;
+    return <HiddenCell clickable={true} handleClick={boundOnCellClick} />;
   }
 
   if (isEmpty) {
-    return <div className="cell empty-cell"/>;
+    return <EmptyCell clickable={allowAnyCellClick} handleClick={boundOnCellClick} />;
   }
 
-  return <div className="cell">
-    {cell.isMine ? <MineSvg/> : <CellValue value={cell.value}/>}
-  </div>;
+  if (cell.isMine) {
+    return <MineCell clickable={allowAnyCellClick} handleClick={boundOnCellClick} />;
+  }
+
+  return <ValueCell value={cell.value} clickable={allowAnyCellClick} handleClick={boundOnCellClick} />;
 };
 
 export default FieldCell;

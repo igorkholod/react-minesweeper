@@ -22,3 +22,16 @@ export const getValueColor = (value: number): Property.Color => {
       return 'transparent';
   }
 };
+
+export const getClickableProps = (clickable: boolean, handleClick: () => void): Pick<React.ComponentProps<'div'>, 'style' | 'onClick'> => {
+  if (clickable) {
+    return {
+      style: {
+        cursor: clickable ? 'pointer' : 'default'
+      },
+      onClick: clickable ? handleClick : undefined
+    };
+  }
+
+  return {};
+};

@@ -17,8 +17,11 @@ export interface CellData {
 
 export interface DetailedBoard {
   uuid: string;
+  name: string;
   cells: CellData[][];
   gameOver: boolean;
+  safeCellsNumber: number;
+  isCleared: boolean;
 }
 
 export type DetailedBoardsById = Record<string, DetailedBoard>
